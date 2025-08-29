@@ -1,0 +1,25 @@
+
+The Cybersecurity Analyst is responsible for identifying, investigating, and remediating threats – both internal and external. The Cybersecurity Analyst is expected to understand threats, attacks, and malware to develop enterprise detections and protections. Analysts must also perform security control maintenance in the form of detection tuning, control policy updates, and automations. Reporting of metrics and summaries of weekly investigations/ ticket tracking is required. This role is leveraged by senior level analysts for more complex investigations and duties.
+
+The SOC Cybersecurity Analyst will be responsible for evaluating the effectiveness and improving the following technology domains in place:
+
+    Security Incident and Event Management (SIEM) review.
+    Alert triage.
+    Data Protection Domain: includes DLP, URL Content filtering, CASB.
+    Endpoint Threat Detection: includes EDR capabilities, traditional antivirus, asset management, and familiarity with baseline and configuration management tools.
+    Next Generation Firewalls and/or IDS/IPS.
+    Threat Hunting & Threat Intelligence.
+    Threat Intelligence Platforms (TIP).
+    Malware sandbox technologies & interpreting results.
+    Incident Response tools, process, and capabilities.
+    Splunk Enterprise Security experience desired.
+    Perform other duties as assigned.
+
+Experience Needed
+
+    Bachelor's Degree preferred
+    0-3 years working within Cybersecurity field
+    Proven technical proficiency in the form of independent research and projects.
+    Proficiency with the identification, triage, and analysis of security events using a SIEM.
+    Demonstrated understanding of attacker methodology.
+    Experience with or knowledge of vulnerability and configuration management.
