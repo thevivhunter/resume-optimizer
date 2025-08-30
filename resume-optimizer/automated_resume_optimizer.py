@@ -34,40 +34,69 @@ class AutomatedResumeOptimizer:
             print(f"Error reading resume: {e}")
             return ""
     
+    # Update in automated_resume_optimizer.py
     def extract_job_description_from_url(self, url):
-        """Extract job description from job posting URL"""
+        """Extract job description from tecoloco.com.hn and other job boards"""
         try:
             headers = {
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
             }
-            response = requests.get(url, headers=headers)
+            response = requests.get(url, headers=headers, timeout=10)
+            response.raise_for_status()
             soup = BeautifulSoup(response.content, 'html.parser')
             
-            # Try common selectors for job descriptions
+            # Remove script and style elements
+            for script in soup(["script", "style"]):
+                script.decompose()
+            
+            # Specific selectors for tecoloco.com.hn
             selectors = [
-                '[data-testid="job-description"]',
-                '.jobsearch-JobComponent-description',
-                '.job-description',
-                '.description',
-                'div[class*="description"]',
-                'div[class*="job"]'
+                '.job-description',  # Standard job description class
+                '#jobDescriptionText',  # Common ID for job descriptions
+                '.job-details-content',
+                '.description',  # General description class
+                '.content',  # Fallback
+                'article',  # Common tag for job postings
+                '.container',  # Container that might hold job content
+                '.row',  # Bootstrap row that might contain job content
+                '[class*="job"]',  # Any class containing "job"
+                '[class*="description"]'  # Any class containing "description"
             ]
             
             job_text = ""
             for selector in selectors:
-                element = soup.select_one(selector)
-                if element:
-                    job_text = element.get_text()
-                    break
+                elements = soup.select(selector)
+                if elements:
+                    # Extract text from all matching elements
+                    text_parts = []
+                    for element in elements:
+                        # Remove common non-content elements
+                        for exclude in element(["button", "nav", "footer", "header", "aside"]):
+                            exclude.decompose()
+                        
+                        text = element.get_text().strip()
+                        if len(text) > 50:  # Only include substantial text blocks
+                            text_parts.append(text)
+                    
+                    job_text = ' '.join(text_parts)
+                    # Clean up the text
+                    job_text = re.sub(r'\s+', ' ', job_text)
+                    
+                    # Check if we have meaningful content
+                    if len(job_text) > 200:
+                        # Remove common site navigation text
+                        job_text = re.sub(r'Compartir|Comparte esta vacante|Vacantes relacionadas|Síguenos en|Política de privacidad|Condiciones de uso|Aviso de privacidad', '', job_text)
+                        break
             
-            if not job_text:
-                # Fallback to body text
-                job_text = soup.get_text()
-            
-            return job_text
+            if job_text and len(job_text) > 200:
+                return job_text
+            else:
+                return "Could not extract job description from the provided URL. The website structure may require specific parsing."
+                
+        except requests.exceptions.RequestException as e:
+            return f"Error fetching job description: {e}"
         except Exception as e:
-            print(f"Error extracting job description: {e}")
-            return ""
+            return f"Error parsing job description: {e}"
     
     def extract_keywords_from_text(self, text):
         """Extract important keywords from text"""
@@ -211,21 +240,30 @@ class AutomatedResumeOptimizer:
             return False
     
     def save_optimization_report(self, job_url, suggestions, filename=None):
-        """Save optimization report to file"""
+        """Save optimization report to file with proper encoding"""
         if not filename:
             timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
             filename = f"optimization_report_{timestamp}.txt"
         
         try:
-            with open(filename, 'w') as f:
+            # Use utf-8 encoding to handle special characters
+            with open(filename, 'w', encoding='utf-8') as f:
                 f.write(f"Resume Optimization Report\n")
                 f.write(f"==========================\n\n")
                 f.write(f"Job URL: {job_url}\n")
                 f.write(f"ATS Compatibility Score: {suggestions['ats_score']}%\n\n")
                 
                 f.write("SUGGESTIONS:\n")
+                # Replace emojis with plain text equivalents
                 for suggestion in suggestions['suggestions']:
-                    f.write(f"  • {suggestion}\n")
+                    # Remove or replace emojis
+                    clean_suggestion = suggestion.replace("🔴", "[HIGH PRIORITY]")
+                    clean_suggestion = clean_suggestion.replace("🟡", "[MEDIUM PRIORITY]")
+                    clean_suggestion = clean_suggestion.replace("🟢", "[GOOD]")
+                    clean_suggestion = clean_suggestion.replace("💡", "[TIP]")
+                    clean_suggestion = clean_suggestion.replace("📌", "[NOTE]")
+                    clean_suggestion = clean_suggestion.replace("🎯", "[RECOMMENDATION]")
+                    f.write(f"  • {clean_suggestion}\n")
                 
                 f.write(f"\nMISSING KEYWORDS TO ADD:\n")
                 for keyword in suggestions['missing_keywords']:

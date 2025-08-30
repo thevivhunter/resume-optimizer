@@ -225,22 +225,30 @@ if __name__ == "__main__":
     soc_job = """
     Cybersecurity Analyst - SOC Operations
     
-    We are seeking a Cybersecurity Analyst to join our Security Operations Center (SOC). 
-    The ideal candidate will have experience with SIEM tools, incident response, and threat detection.
-    
-    Responsibilities:
-    • Monitor and analyze security events using SIEM tools
-    • Perform alert triage and incident response activities
-    • Conduct threat hunting and vulnerability assessments
-    • Collaborate with cross-functional security teams
-    • Document security incidents and investigations
-    
-    Requirements:
-    • 3-5 years of cybersecurity experience
-    • Proficiency with SIEM platforms (Splunk, QRadar, or ArcSight)
-    • Strong understanding of incident response procedures
-    • Experience with threat hunting and malware analysis
-    • Knowledge of network security and vulnerability management
+    System Administrator with excellent technical support and troubleshooting skills. This remote role involves server and computer maintenance, cloud backup administration, and end-user support.
+
+    As Part Of The Team, You Will
+
+    Configure and maintain servers and operating systems. 
+    Install software and ensure network connectivity. 
+    Administer and monitor cloud backup systems. 
+    Provide technical support to colleagues and clients, resolving issues with efficiency and professionalism. 
+
+    This role is ideal for a tech-savvy professional with strong problem-solving abilities, solid communication skills in English, and a proactive approach to IT challenges.
+
+    Requirements
+
+    C1 level of English is a must (spoken and written). 
+    +3 years of experience in the same role.
+    Excellent verbal and written communication skills. 
+    Advanced PC knowledge (ability to assemble and upgrade computers). 
+    Extensive experience with Windows 10/11, Server 2016/22. 
+    Ability to set up and maintain domain controllers. 
+    Strong experience in networking and troubleshooting connectivity issues. 
+    Knowledge of configuring firewalls, opening ports, and setting up high availability redundancy for dual ISPs. 
+    Experience setting up printers, scanners, and fax machines. 
+    Strong troubleshooting and time management skills with the ability to meet deadlines. 
+
     """
     
     # Comprehensive analysis
