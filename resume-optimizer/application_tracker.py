@@ -1,6 +1,5 @@
 # application_tracker.py
 import json
-import csv
 from datetime import datetime
 from typing import Dict, List, Optional
 
@@ -93,27 +92,6 @@ class ApplicationTracker:
             'success_rate': round((successful / total) * 100, 1),
             'status_breakdown': status_counts
         }
-    
-    def export_to_csv(self, filename: str = "job_applications_export.csv"):
-        """Export application data to CSV"""
-        try:
-            with open(filename, 'w', newline='', encoding='utf-8') as csvfile:
-                fieldnames = ['id', 'timestamp', 'job_title', 'company', 'job_url', 
-                            'ats_score', 'status', 'resume_version', 'missing_keywords']
-                writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-                writer.writeheader()
-                
-                for app in self.applications["applications"]:
-                    # Convert missing_keywords list to string
-                    app_copy = app.copy()
-                    app_copy['missing_keywords'] = ', '.join(app['missing_keywords'])
-                    writer.writerow(app_copy)
-            
-            print(f"✅ Data exported to {filename}")
-            return filename
-        except Exception as e:
-            print(f"❌ Error exporting to CSV: {e}")
-            return None
 
 # Example usage
 if __name__ == "__main__":
